@@ -3,9 +3,8 @@ import 'package:crypto_trading_app/core/api_provider.dart';
 import 'package:crypto_trading_app/features/home/models/crypto_asset.dart';
 
 class TradeService {
-  final ApiProvider _apiProvider = Get.find<ApiProvider>();  // Use ApiProvider
+  final ApiProvider _apiProvider = Get.find<ApiProvider>();
 
-  // Fetch crypto assets with a limit parameter
   Future<List<CryptoAsset>> getCryptoAssets({required int limit}) async {
     try {
       final assetsData = await _apiProvider.fetchCryptoAssets(limit: limit);
@@ -16,7 +15,6 @@ class TradeService {
     }
   }
 
-  // Fetch exchange rates
   Future<Map<String, dynamic>?> getExchangeRates(String baseCurrency, List<String> symbols) async {
     try {
       final rates = await _apiProvider.fetchLiveExchangeRates(

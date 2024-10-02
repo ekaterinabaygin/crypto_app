@@ -32,9 +32,10 @@ class LoginModal extends StatelessWidget {
           onPressed: () {
             final email = emailController.text.trim();
             final password = passwordController.text.trim();
-            authController.login(email, password); // Simplified login
+            authController.login(email, password);
             if (authController.isLoggedIn.value) {
-              Get.back(); // Close modal if login succeeds
+              Get.back();
+              Get.offAllNamed('/trade');
             }
           },
           child: const Text('Login'),

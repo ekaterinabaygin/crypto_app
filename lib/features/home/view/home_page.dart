@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/widgets/sticky_header.dart';
+import '../models/crypto_asset.dart';
 import '../view_model/crypto_controller.dart';
 
 class HomePage extends StatelessWidget {
@@ -15,49 +16,82 @@ class HomePage extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
 
-        return ListView.builder(
-          itemCount: cryptoController.cryptoAssets.length + 1, // +1 for the Load More button
-          itemBuilder: (context, index) {
-            if (index == cryptoController.cryptoAssets.length) {
-              // This is the last item - Load More button
-              if (cryptoController.hasMore.value) {
-                return Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      int nextPage = (cryptoController.cryptoAssets.length ~/ 10) + 1;
-                      cryptoController.fetchCryptoAssets(page: nextPage);
-                    },
-                    child: const Text('Load More'),
-                  ),
-                );
-              } else {
-                return const Center(child: Text('No more assets to load'));
-              }
-            }
-
-            // Render the crypto asset list item
-            final asset = cryptoController.cryptoAssets[index];
-            return ListTile(
-              leading: Image.network(asset.iconUrl, width: 40),
-              title: Text(asset.name),
-              subtitle: Text('\$${asset.price.toStringAsFixed(2)}'),
-              trailing: PopupMenuButton<String>(
-                onSelected: (value) {
-                  if (value == 'Buy') {
-                    print('Buy ${asset.name}');
-                  } else if (value == 'Sell') {
-                    print('Sell ${asset.name}');
+        return Column(
+          children: [
+            _buildSortingOptions(),
+            Expanded(
+              child: ListView.builder(
+                itemCount: cryptoController.cryptoAssets.length + 1,
+                itemBuilder: (context, index) {
+                  if (index == cryptoController.cryptoAssets.length) {
+                    return _buildLoadMoreButton();
                   }
+
+                  final asset = cryptoController.cryptoAssets[index];
+                  return _buildCryptoItem(asset);
                 },
-                itemBuilder: (context) => [
-                  const PopupMenuItem(value: 'Buy', child: Text('Buy')),
-                  const PopupMenuItem(value: 'Sell', child: Text('Sell')),
-                ],
               ),
-            );
-          },
+            ),
+          ],
         );
       }),
+    );
+  }
+
+  Widget _buildSortingOptions() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          const Text('Sort by: '),
+          DropdownButton<String>(
+            value: cryptoController.selectedSortOption.value,
+            items: cryptoController.sortOptions.map((option) {
+              return DropdownMenuItem<String>(
+                value: option,
+                child: Text(option),
+              );
+            }).toList(),
+            onChanged: (value) {
+              cryptoController.sortAssets(value!);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCryptoItem(CryptoAsset asset) {
+    return ListTile(
+      leading: Image.network(asset.iconUrl, width: 40),
+      title: Text(asset.name),
+      subtitle: Text('\$${asset.price.toStringAsFixed(2)}'),
+      trailing: PopupMenuButton<String>(
+        onSelected: (value) {
+          if (value == 'Buy') {
+            print('Buy ${asset.name}');
+          } else if (value == 'Sell') {
+            print('Sell ${asset.name}');
+          }
+        },
+        itemBuilder: (context) => [
+          const PopupMenuItem(value: 'Buy', child: Text('Buy')),
+          const PopupMenuItem(value: 'Sell', child: Text('Sell')),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLoadMoreButton() {
+    return Center(
+      child: ElevatedButton(
+        onPressed: () {
+          int nextPage = (cryptoController.cryptoAssets.length ~/ 10) + 1;
+          cryptoController.fetchCryptoAssets(page: nextPage);
+        },
+        child: const Text('Load More'),
+      ),
     );
   }
 }

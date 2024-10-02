@@ -4,7 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class ApiProvider {
   final Dio _dio = Dio();
 
-  // Fetch crypto assets with error handling
   Future<List<dynamic>> fetchCryptoAssets({required int limit}) async {
     const String apiUrl = 'https://rest.coinapi.io/v1/assets';
     final String apiKey = dotenv.env['COIN_API_KEY'] ?? '';
@@ -28,12 +27,11 @@ class ApiProvider {
     }
   }
 
-  // Fetch live exchange rates with proper error handling
   Future<Map<String, dynamic>?> fetchLiveExchangeRates({
     required String baseCurrency,
     required List<String> symbols,
   }) async {
-    const String apiUrl = 'https://api.exchangerate.host/latest';
+    const String apiUrl = 'https://api.exchangerate.host/live?access_key=403da6dfef81906bcaaf337abe527cd9';
 
     try {
       final response = await _dio.get(apiUrl, queryParameters: {

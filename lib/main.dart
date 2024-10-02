@@ -10,8 +10,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
-  await GetStorage.init();  // Persistent storage
-  DependencyInjection.init(); // Initialize controllers
+  await GetStorage.init();
+  DependencyInjection.init();
 
   runApp(const MyApp());
 }
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/trade',
           page: () => TradePage(),
-          middlewares: [AuthGuard()],  // Protect TradePage with AuthGuard
+          middlewares: [AuthGuard()],
         ),
       ],
     );

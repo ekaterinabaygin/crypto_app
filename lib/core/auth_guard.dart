@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:crypto_trading_app/features/auth/controller/auth_controller.dart';
+import '../features/auth/controller/auth_controller.dart';
 
 class AuthGuard extends GetMiddleware {
   @override
