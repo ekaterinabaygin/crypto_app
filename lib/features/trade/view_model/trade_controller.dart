@@ -57,7 +57,6 @@ class TradeController extends GetxController {
       print('Error fetching conversion rates: $e');
     }
 
-    // Ensure that we update fields based on the conversion rate
     if (isCryptoInputMode.value) {
       updateFiatAmount(double.tryParse(cryptoAmountController.text) ?? 0.0);
     } else {
@@ -84,7 +83,6 @@ class TradeController extends GetxController {
     fiatAmountController.text = fiatAmount.value.toStringAsFixed(2);
   }
 
-// Method to update the crypto equivalent when the user inputs a fiat amount
   void updateCryptoAmount(double fiatAmount) {
     if (conversionRate.value == 0.0 || fiatAmount == 0.0) {
       cryptoAmount.value = 0.0; // Handle case when the rate or input is 0
@@ -98,16 +96,15 @@ class TradeController extends GetxController {
   void swapInputMode() {
     isCryptoInputMode.value = !isCryptoInputMode.value;
 
-    // Avoid calculating with invalid values (NaN, Infinity, or 0)
     if (isCryptoInputMode.value) {
       double fiatAmountValue = double.tryParse(fiatAmountController.text) ?? 0.0;
       if (fiatAmountValue != 0.0 && conversionRate.value != 0.0) {
-        updateCryptoAmount(fiatAmountValue);  // Recalculate crypto amount based on existing fiat
+        updateCryptoAmount(fiatAmountValue);
       }
     } else {
       double cryptoAmountValue = double.tryParse(cryptoAmountController.text) ?? 0.0;
       if (cryptoAmountValue != 0.0 && conversionRate.value != 0.0) {
-        updateFiatAmount(cryptoAmountValue);  // Recalculate fiat amount based on existing crypto
+        updateFiatAmount(cryptoAmountValue);
       }
     }
   }}
