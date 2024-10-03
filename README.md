@@ -1,32 +1,81 @@
-# crypto_trading_app
 
-This is a Flutter-based Crypto Trading App that allows users to view live crypto asset prices,
-calculate fiat equivalents for cryptocurrencies, and perform crypto-to-fiat conversions.
+**Crypto Trading App**
 
-The app uses GetX for state management and relies on exchangerate.host for fiat exchange rates 
-and CoinAPI for cryptocurrency data.
+This application is a helpful tool for cryptocurrency enthusiasts and traders.
 
-The project follows a clean architecture approach.
+With this app, you can convert between cryptocurrencies and fiat currencies using real-time exchange rates.
+You can view the current crypto prices and calculate how much your crypto assets are worth in USD. 
 
-# Features
+This app is designed to make it easier to track and manage your crypto portfolio.
 
-**Crypto Conversion**: 
-Users can input a cryptocurrency amount and get the equivalent value in USD.
+***
 
-**Fiat-to-Crypto Conversion**:
-Users can input a fiat amount (USD) and see the corresponding value in a selected cryptocurrency.
+**-Homepage:
+**Upon opening the app, users are greeted with a homepage displaying the latest prices of various cryptocurrencies. 
+Users can see details such as the name, price, and icon of each crypto asset.
 
-**Swap Functionality**: Toggle between crypto-to-fiat and fiat-to-crypto inputs.
+**-Trade Page:
+**The trade page allows users to input a cryptocurrency amount and see its equivalent value in USD.
+You can also swap between fiat-to-crypto and crypto-to-fiat conversions.
 
-**Real-Time Exchange Rates**: Fetches live exchange rates from exchangerate.host.
+**-Login and Authentication:
+**Certain features, like trading, are accessible only to logged-in users. 
+Users can log in or sign out using the built-in login feature.
 
-**Login/Logout**: Basic login functionality to restrict access to certain features.
+**-Swap Functionality:
+**The app has a simple swap button that toggles between entering a crypto amount or 
+a fiat amount (USD) to make the conversion process seamless.
+
+***
+
+**Technical Stack:
+**Flutter: For building the UI.
+GetX: Used for state management and dependency injection.
+Dio: HTTP client for making API requests.
+GetStorage: For local storage (used for storing user login state).
+Environment Variables: API keys and sensitive data are stored in .env for security.
+
+***
+
+**API:
+**[ExchangeRate Host API](https://exchangerate.host/) - Provides live exchange rates for various fiat currencies.
+[CoinAPI](https://customerportal.coinapi.io/apikeys) - Fetches real-time cryptocurrency data,
+including prices and market trends.
+
+***
+
+**Architecture:
+**The app follows the MVVM (Model-View-ViewModel) pattern for a clean and modular codebase. 
+The MVVM pattern separates the UI logic from the core business logic, making the app more maintainable,
+testable, and scalable.
+
+Layers:
+
+Model:
+
+Contains the core business entities like CryptoAsset and DTOs (Data Transfer Objects) for API data.
+Handles the logic of converting API responses into usable objects.
+
+View:
+
+Widgets that display the UI to the user, like HomePage, TradePage, and custom widgets such as
+StickyHeader and CryptoItem.
+The UI reacts to changes in the ViewModel by observing reactive states provided by GetX.
+
+ViewModel:
+
+Contains the business logic and state of the application.
+Uses GetX to manage state and notify views of any changes in the data.
+For instance, the CryptoController and TradeController handle fetching data from services,
+and managing crypto conversion logic, and interaction between the model and the UI.
+
+***
 
 # Installation
 
 1.Clone the repository:
 
-git clone https://github.com/your-username/crypto-trading-app.git
+git clone https://github.com/ekaterinabaygin/crypto-trading-app.git
 cd crypto-trading-app
 
 2.Install the dependencies:
@@ -39,26 +88,20 @@ You need to create a .env file in the root directory of the project and add the 
 
 **Exchange Rate Host API Key**
 
-1.Visit exchangerate.host.
+1.a)Visit exchangerate.host.
 Create an account and generate your API key (access key).
 Copy the API key.
-CoinAPI Key
+
+b)CoinAPI Key
 Visit CoinAPI.io to sign up and obtain your API key.
 Copy the API key.
-Creating .env File
 
 Create a .env file in the root of your project:
 touch .env
 
-2.Add the following environment variables to the .env file, 
+2.Add the following environment variables to the .env file,
 replacing the placeholders with your actual API keys:
 
 EXCHANGE_RATE_API_KEY=your_exchangerate_host_key
 COIN_API_KEY=your_coinapi_key
 
-# Run the App
-Once the environment variables are set up:
-flutter run
-
-Start the development server:
-flutter run -d <device-id>
