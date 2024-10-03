@@ -7,22 +7,22 @@ With this app, you can convert between cryptocurrencies and fiat currencies usin
 
 ***
 
-**-Homepage:
-**Upon opening the app, users are greeted with a homepage displaying the latest prices of various cryptocurrencies. Users can see details such as the name, price, and icon of each crypto asset.
+**-Homepage:**
+Upon opening the app, users are greeted with a homepage displaying the latest prices of various cryptocurrencies. Users can see details such as the name, price, and icon of each crypto asset.
 
-**-Trade Page:
-**The trade page allows users to input a cryptocurrency amount and see its equivalent value in USD. You can also swap between fiat-to-crypto and crypto-to-fiat conversions.
+**-Trade Page:**
+The trade page allows users to input a cryptocurrency amount and see its equivalent value in USD. You can also swap between fiat-to-crypto and crypto-to-fiat conversions.
 
-**-Login and Authentication:
-**Certain features, like trading, are accessible only to logged-in users. Users can log in or sign out using the built-in login feature.
+**-Login and Authentication:**
+Certain features, like trading, are accessible only to logged-in users. Users can log in or sign out using the built-in login feature.
 
-**-Swap Functionality:
-**The app has a simple swap button that toggles between entering a crypto amount or a fiat amount (USD) to make the conversion process seamless.
+**-Swap Functionality:**
+The app has a simple swap button that toggles between entering a crypto amount or a fiat amount (USD) to make the conversion process seamless.
 
 ***
 
-**Technical Stack:
-**Flutter: For building the UI.
+**Technical Stack:**
+Flutter: For building the UI.
 GetX: Used for state management and dependency injection.
 Dio: HTTP client for making API requests.
 GetStorage: For local storage (used for storing user login state).
@@ -30,14 +30,14 @@ Environment Variables: API keys and sensitive data are stored in .env for securi
 
 ***
 
-**API:
-**[ExchangeRate Host API](https://exchangerate.host/) - Provides live exchange rates for various fiat currencies.
+**API:**
+[ExchangeRate Host API](https://exchangerate.host/) - Provides live exchange rates for various fiat currencies.
 [CoinAPI](https://customerportal.coinapi.io/apikeys) - Fetches real-time cryptocurrency data, including prices and market trends.
 
 ***
 
-**Architecture:
-**The app follows the MVVM (Model-View-ViewModel) pattern for a clean and modular codebase. The MVVM pattern separates the UI logic from the core business logic, making the app more maintainable, testable, and scalable.
+**Architecture:**
+The app follows the MVVM (Model-View-ViewModel) pattern for a clean and modular codebase. The MVVM pattern separates the UI logic from the core business logic, making the app more maintainable, testable, and scalable.
 
 Layers:
 
