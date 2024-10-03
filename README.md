@@ -26,7 +26,7 @@ Users can input a fiat amount (USD) and see the corresponding value in a selecte
 
 1.Clone the repository:
 
-git clone https://github.com/your-username/crypto-trading-app.git
+git clone https://github.com/ekaterinabaygin/crypto-trading-app.git
 cd crypto-trading-app
 
 2.Install the dependencies:
