@@ -23,9 +23,13 @@ The app has a simple swap button that toggles between entering a crypto amount o
 
 **Technical Stack:**
 Flutter: For building the UI.
+
 GetX: Used for state management and dependency injection.
+
 Dio: HTTP client for making API requests.
+
 GetStorage: For local storage (used for storing user login state).
+
 Environment Variables: API keys and sensitive data are stored in .env for security.
 
 ***
