@@ -1,60 +1,57 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import '../data/trade_service.dart';
 
 class TradeController extends GetxController {
+  final TradeService tradeService;
+
+  TradeController({required this.tradeService});
+
   var cryptoList = ['BTC', 'ETH', 'LTC'].obs;
   var selectedCrypto = 'BTC'.obs;
-
   var isCryptoInputMode = true.obs;
 
-  TextEditingController cryptoAmountController = TextEditingController();
-  TextEditingController fiatAmountController = TextEditingController();
+  late TextEditingController cryptoAmountController;
+  late TextEditingController fiatAmountController;
 
   var cryptoAmount = 0.0.obs;
   var fiatAmount = 0.0.obs;
-
   var conversionRate = 0.0.obs;
+  var isLoading = false.obs;
+  var errorMessage = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
+    cryptoAmountController = TextEditingController();
+    fiatAmountController = TextEditingController();
     fetchConversionRate();
   }
 
+  @override
+  void onClose() {
+    cryptoAmountController.dispose();
+    fiatAmountController.dispose();
+    super.onClose();
+  }
+
   Future<void> fetchConversionRate() async {
-    final String apiUrl = 'https://api.exchangerate.host/live';
+    isLoading.value = true;
+    errorMessage.value = '';
+
     try {
-      final response = await http.get(
-        Uri.parse(apiUrl).replace(
-          queryParameters: {
-            'access_key': '403da6dfef81906bcaaf337abe527cd9', // Your access key
-          },
-        ),
-      );
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-
-        // Check if the 'quotes' and 'USDBTC' fields are present
-        if (data['quotes'] != null && data['quotes']['USDBTC'] != null) {
-          conversionRate.value = 1 / data['quotes']['USDBTC']; // Convert USD to BTC rate
-          print('Conversion rate (BTC to USD) fetched: ${conversionRate.value}');
-        } else {
-          conversionRate.value = 0.0;
-          Get.snackbar('Error', 'BTC rate not available. Please try again.');
-          print('Error: BTC rate not available in the API response.');
-        }
+      final rate = await tradeService.getConversionRate('USD', selectedCrypto.value);
+      if (rate != null) {
+        conversionRate.value = rate;
       } else {
         conversionRate.value = 0.0;
-        Get.snackbar('Error', 'Failed to load conversion rates. Status Code: ${response.statusCode}');
-        print('Error: Failed to fetch conversion rate. Status Code: ${response.statusCode}');
+        errorMessage.value = 'Conversion rate not available.';
       }
     } catch (e) {
       conversionRate.value = 0.0;
-      Get.snackbar('Error', 'Failed to fetch rates: $e');
-      print('Error fetching conversion rates: $e');
+      errorMessage.value = 'Failed to fetch conversion rate: $e';
+    } finally {
+      isLoading.value = false;
     }
 
     if (isCryptoInputMode.value) {
@@ -64,19 +61,9 @@ class TradeController extends GetxController {
     }
   }
 
-
-
-  void selectCrypto(String? value) {
-    if (value != null) {
-      selectedCrypto.value = value;
-      fetchConversionRate();
-    }
-  }
-
-  // Method to update the fiat equivalent when the user inputs a crypto amount
   void updateFiatAmount(double cryptoAmount) {
     if (conversionRate.value == 0.0 || cryptoAmount == 0.0) {
-      fiatAmount.value = 0.0; // Handle case when the rate or input is 0
+      fiatAmount.value = 0.0;
     } else {
       fiatAmount.value = (cryptoAmount * conversionRate.value).toPrecision(2);
     }
@@ -85,13 +72,12 @@ class TradeController extends GetxController {
 
   void updateCryptoAmount(double fiatAmount) {
     if (conversionRate.value == 0.0 || fiatAmount == 0.0) {
-      cryptoAmount.value = 0.0; // Handle case when the rate or input is 0
+      cryptoAmount.value = 0.0;
     } else {
       cryptoAmount.value = (fiatAmount / conversionRate.value).toPrecision(6);
     }
     cryptoAmountController.text = cryptoAmount.value.toStringAsFixed(6);
   }
-
 
   void swapInputMode() {
     isCryptoInputMode.value = !isCryptoInputMode.value;
@@ -107,4 +93,12 @@ class TradeController extends GetxController {
         updateFiatAmount(cryptoAmountValue);
       }
     }
-  }}
+  }
+
+  void selectCrypto(String? value) {
+    if (value != null) {
+      selectedCrypto.value = value;
+      fetchConversionRate();
+    }
+  }
+}

@@ -1,15 +1,16 @@
 import 'package:get/get.dart';
 import '../models/crypto_asset.dart';
 import '../data/crypto_service.dart';
-
+import '../utils/sort_option.dart';
 class CryptoController extends GetxController {
   var cryptoAssets = <CryptoAsset>[].obs;
   var isLoading = true.obs;
   var hasMore = false.obs;
-  var selectedSortOption = 'Name'.obs;
+  var selectedSortOption = SortOption.name.obs;
 
-  final List<String> sortOptions = ['Name', 'Price'];
-  final CryptoService cryptoService = CryptoService();
+  final List<SortOption> sortOptions = SortOption.values;
+  final CryptoService cryptoService;
+  CryptoController({required this.cryptoService});
 
   @override
   void onInit() {
@@ -33,15 +34,15 @@ class CryptoController extends GetxController {
     }
   }
 
-  void sortAssets(String option) {
+  void sortAssets(SortOption option) {
     selectedSortOption.value = option;
     _sortAssets();
   }
 
   void _sortAssets() {
-    if (selectedSortOption.value == 'Name') {
+    if (selectedSortOption.value == SortOption.name) {
       cryptoAssets.sort((a, b) => a.name.compareTo(b.name));
-    } else if (selectedSortOption.value == 'Price') {
+    } else if (selectedSortOption.value == SortOption.price) {
       cryptoAssets.sort((a, b) => a.price.compareTo(b.price));
     }
   }

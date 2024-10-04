@@ -17,6 +17,15 @@ class TradePage extends StatelessWidget {
         child: Column(
           children: [
             Obx(() {
+              if (tradeController.isLoading.value) {
+                return const CircularProgressIndicator();
+              }
+              if (tradeController.errorMessage.isNotEmpty) {
+                return Text(
+                  tradeController.errorMessage.value,
+                  style: const TextStyle(color: Colors.red),
+                );
+              }
               return DropdownButton<String>(
                 value: tradeController.selectedCrypto.value,
                 items: tradeController.cryptoList.map((crypto) {
@@ -29,7 +38,6 @@ class TradePage extends StatelessWidget {
               );
             }),
             const SizedBox(height: 20),
-
             Obx(() {
               return TextField(
                 controller: tradeController.isCryptoInputMode.value
@@ -51,7 +59,6 @@ class TradePage extends StatelessWidget {
                 },
               );
             }),
-
             const SizedBox(height: 20),
             Obx(() => Text(
               tradeController.isCryptoInputMode.value
@@ -59,9 +66,7 @@ class TradePage extends StatelessWidget {
                   : 'Crypto Equivalent: ${tradeController.cryptoAmount.value.toStringAsFixed(6)} ${tradeController.selectedCrypto.value}',
               style: const TextStyle(fontSize: 16),
             )),
-
             const SizedBox(height: 20),
-
             ElevatedButton(
               onPressed: tradeController.swapInputMode,
               child: const Text('Swap'),
