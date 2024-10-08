@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 import '../features/auth/controller/auth_controller.dart';
 
 class AuthGuard extends GetMiddleware {
@@ -10,7 +10,7 @@ class AuthGuard extends GetMiddleware {
     if (!authController.isLoggedIn.value) {
       Get.snackbar(
         'Access Denied',
-        'You must be logged in to access this page',
+        'You must be logged in to access the Trade page.',
         snackPosition: SnackPosition.BOTTOM,
       );
       return const RouteSettings(name: '/home');

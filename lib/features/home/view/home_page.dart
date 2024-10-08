@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../core/theming/colors.dart';  // New import
-import '../../../core/theming/text_styles.dart';  // New import
+import '../../../core/theming/colors.dart';
+import '../../../core/theming/text_styles.dart';
 import '../../../core/widgets/sticky_header.dart';
-import '../models/crypto_asset.dart';
-import '../view_model/crypto_controller.dart';
 import '../utils/sort_option.dart';
+import '../view_model/crypto_controller.dart';
+import '../models/crypto_asset.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -15,8 +15,7 @@ class HomePage extends StatelessWidget {
     final CryptoController cryptoController = Get.find<CryptoController>();
 
     return Scaffold(
-      appBar: const StickyHeader(),
-      backgroundColor: AppColors.background,  // Updated
+      appBar: const StickyHeader(automaticallyImplyLeading: false), // Disable back arrow
       body: Obx(() {
         if (cryptoController.isLoading.value && cryptoController.cryptoAssets.isEmpty) {
           return const Center(child: CircularProgressIndicator());

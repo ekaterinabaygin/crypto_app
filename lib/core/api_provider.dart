@@ -11,13 +11,38 @@ class ApiProvider {
 
   ApiProvider._internal() : _dio = Dio() {
     _dio.options.headers['Content-Type'] = 'application/json';
+
+    _dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) {
+        print('Request: ${options.method} ${options.uri}');
+        handler.next(options);
+      },
+      onResponse: (response, handler) {
+        print('Response: ${response.statusCode} ${response.data}');
+        handler.next(response);
+      },
+      onError: (DioError e, handler) {
+        print('Error occurred: ${e.message}');
+        handler.next(e);
+      },
+    ));
+
+    _setCoinAPIHeaders();
+  }
+
+  void _setExchangeRateHostHeaders() {
+    _dio.options.headers['Authorization'] = 'Bearer ${dotenv.env['EXCHANGERATE_HOST_KEY']}';
+  }
+
+  void _setCoinAPIHeaders() {
+    _dio.options.headers['Authorization'] = 'Bearer ${dotenv.env['COIN_API_KEY']}';
   }
 
   Future<dynamic> getCoinData({
     required String endPoint,
     Map<String, dynamic>? queryParams,
   }) async {
-    _dio.options.headers['Authorization'] = 'Bearer ${dotenv.env['COIN_API_KEY']}';
+    _setCoinAPIHeaders();
     return _fetchData(endPoint: endPoint, queryParams: queryParams);
   }
 
@@ -25,6 +50,7 @@ class ApiProvider {
     required String baseCurrency,
     required List<String> symbols,
   }) async {
+    _setExchangeRateHostHeaders();
     const String apiUrl = 'https://api.exchangerate.host/live';
     return _fetchData(endPoint: apiUrl, queryParams: {
       'base': baseCurrency,
@@ -43,7 +69,7 @@ class ApiProvider {
         queryParameters: queryParams,
       );
       if (response.statusCode == 200 && response.data != null) {
-        return response.data;  // Return data without casting yet
+        return response.data;
       } else {
         print('Error: Failed to fetch data. Status Code: ${response.statusCode}');
       }
