@@ -7,23 +7,20 @@ class TradeService {
 
   Future<double?> getConversionRate(String from, String to) async {
     try {
-      final rates = await apiProvider.fetchLiveExchangeRates(
+      final response = await apiProvider.getExchangeRates(
         baseCurrency: from,
         symbols: [to],
       );
-      if (rates != null) {
 
-        final rateKey = 'USD$to';
-        if (rates.containsKey(rateKey)) {
-          return rates[rateKey];
-        } else {
-          print('Conversion rate for $rateKey not available.');
+      if (response != null && response.containsKey('quotes')) {
+        final rateKey = '$from$to'.toUpperCase();
+        if (response['quotes'].containsKey(rateKey)) {
+          return response['quotes'][rateKey];
         }
       }
       return null;
     } catch (e) {
-      print('Error fetching conversion rate: $e');
-      return null;
+      throw Exception('Failed to fetch conversion rate: $e');
     }
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'bindings/app_bindings.dart';
+import 'core/di/bindings/app_bindings.dart';
 import 'features/home/view/home_page.dart';
 import 'features/trade/view/trade_page.dart';
 import 'core/auth_guard.dart';

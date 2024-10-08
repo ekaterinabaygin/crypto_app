@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../core/theming/colors.dart';  // New import
+import '../../../core/theming/text_styles.dart';  // New import
 import '../../../core/widgets/sticky_header.dart';
-import '../view_model/crypto_controller.dart';
 import '../models/crypto_asset.dart';
+import '../view_model/crypto_controller.dart';
 import '../utils/sort_option.dart';
 
 class HomePage extends StatelessWidget {
@@ -14,6 +16,7 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       appBar: const StickyHeader(),
+      backgroundColor: AppColors.background,  // Updated
       body: Obx(() {
         if (cryptoController.isLoading.value && cryptoController.cryptoAssets.isEmpty) {
           return const Center(child: CircularProgressIndicator());
@@ -47,13 +50,13 @@ class HomePage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          const Text('Sort by: '),
+          const Text('Sort by: ', style: AppTypography.regular16),
           DropdownButton<SortOption>(
             value: cryptoController.selectedSortOption.value,
             items: cryptoController.sortOptions.map((option) {
               return DropdownMenuItem<SortOption>(
                 value: option,
-                child: Text(option.displayName),
+                child: Text(option.displayName, style: AppTypography.regular16),
               );
             }).toList(),
             onChanged: (value) {
@@ -70,11 +73,17 @@ class HomePage extends StatelessWidget {
   Widget _buildLoadMoreButton(CryptoController cryptoController) {
     return Center(
       child: ElevatedButton(
-        onPressed: () {
+        onPressed: () async {
           int nextPage = (cryptoController.cryptoAssets.length ~/ 10) + 1;
-          cryptoController.fetchCryptoAssets(page: nextPage);
+          bool success = await cryptoController.fetchCryptoAssets(page: nextPage);
+          if (!success) {
+            Get.snackbar('Error', 'Failed to load more assets');
+          }
         },
-        child: const Text('Load More'),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primary,
+        ),
+        child: const Text('Load More', style: AppTypography.regular16),
       ),
     );
   }
@@ -85,10 +94,10 @@ class HomePage extends StatelessWidget {
         asset.iconUrl,
         width: 40,
         height: 40,
-        errorBuilder: (context, error, stackTrace) => const Icon(Icons.image_not_supported),
+        errorBuilder: (context, error, stackTrace) => const Icon(Icons.image_not_supported, color: AppColors.red),
       ),
-      title: Text(asset.name),
-      subtitle: Text('\$${asset.price.toStringAsFixed(2)}'),
+      title: Text(asset.name, style: AppTypography.bold18),
+      subtitle: Text('\$${asset.price.toStringAsFixed(2)}', style: AppTypography.regular16),
       trailing: PopupMenuButton<String>(
         onSelected: (value) {
           if (value == 'Buy') {
@@ -98,8 +107,8 @@ class HomePage extends StatelessWidget {
           }
         },
         itemBuilder: (context) => const [
-          PopupMenuItem(value: 'Buy', child: Text('Buy')),
-          PopupMenuItem(value: 'Sell', child: Text('Sell')),
+          PopupMenuItem(value: 'Buy', child: Text('Buy', style: AppTypography.regular16)),
+          PopupMenuItem(value: 'Sell', child: Text('Sell', style: AppTypography.regular16)),
         ],
       ),
     );

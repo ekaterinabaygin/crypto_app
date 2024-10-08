@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../features/auth/controller/auth_controller.dart';
 import '../../features/auth/view/login_modal.dart';
+import '../../core/theming/colors.dart';  // New import
+import '../../core/theming/text_styles.dart';  // New import
 
 class StickyHeader extends StatelessWidget implements PreferredSizeWidget {
   const StickyHeader({super.key});
@@ -16,26 +18,26 @@ class StickyHeader extends StatelessWidget implements PreferredSizeWidget {
         children: [
           TextButton(
             onPressed: () => Get.offAllNamed('/home'),
-            child: const Text('Home', style: TextStyle(color: Colors.white)),
+            child: const Text('Home', style: AppTypography.bold18),
           ),
           const SizedBox(width: 10),
           TextButton(
             onPressed: () => Get.toNamed('/trade'),
-            child: const Text('Trade', style: TextStyle(color: Colors.white)),
+            child: const Text('Trade', style: AppTypography.bold18),
           ),
           const Spacer(),
           Obx(() => authController.isLoggedIn.value
               ? TextButton(
             onPressed: authController.logout,
-            child: const Text('Logout', style: TextStyle(color: Colors.white)),
+            child: const Text('Logout', style: AppTypography.bold18),
           )
               : TextButton(
             onPressed: () => Get.dialog(LoginModal()),
-            child: const Text('Login', style: TextStyle(color: Colors.white)),
+            child: const Text('Login', style: AppTypography.bold18),
           )),
         ],
       ),
-      backgroundColor: Colors.purple,
+      backgroundColor: AppColors.primary,
       elevation: 0,
     );
   }

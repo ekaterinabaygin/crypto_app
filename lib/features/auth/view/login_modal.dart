@@ -7,6 +7,8 @@ class LoginModal extends StatelessWidget {
   final passwordController = TextEditingController();
   final authController = Get.find<AuthController>();
 
+  LoginModal({super.key});
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -32,10 +34,14 @@ class LoginModal extends StatelessWidget {
           onPressed: () {
             final email = emailController.text.trim();
             final password = passwordController.text.trim();
-            authController.login(email, password);
-            if (authController.isLoggedIn.value) {
+
+            bool isSuccess = authController.login(email, password);
+
+            if (isSuccess) {
               Get.back();
               Get.offAllNamed('/trade');
+            } else {
+              Get.snackbar('Login Failed', 'Please enter both email and password');
             }
           },
           child: const Text('Login'),

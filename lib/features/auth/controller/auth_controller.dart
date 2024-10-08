@@ -13,19 +13,19 @@ class AuthController extends GetxController {
     isLoggedIn.value = authService.isLoggedIn();
   }
 
-  void login(String email, String password) {
+  bool login(String email, String password) {
     if (email.isNotEmpty && password.isNotEmpty) {
       authService.login(email, password);
       isLoggedIn.value = true;
-      Get.offAllNamed('/home');
+      return true;  // Success
     } else {
-      Get.snackbar('Login Failed', 'Please enter both email and password');
+      return false;  // Failure
     }
   }
 
-  void logout() {
+  bool logout() {
     authService.logout();
     isLoggedIn.value = false;
-    Get.offAllNamed('/home');
+    return true;
   }
 }

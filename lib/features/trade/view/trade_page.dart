@@ -20,12 +20,14 @@ class TradePage extends StatelessWidget {
               if (tradeController.isLoading.value) {
                 return const CircularProgressIndicator();
               }
+
               if (tradeController.errorMessage.isNotEmpty) {
                 return Text(
                   tradeController.errorMessage.value,
                   style: const TextStyle(color: Colors.red),
                 );
               }
+
               return DropdownButton<String>(
                 value: tradeController.selectedCrypto.value,
                 items: tradeController.cryptoList.map((crypto) {

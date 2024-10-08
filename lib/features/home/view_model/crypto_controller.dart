@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import '../models/crypto_asset.dart';
 import '../data/crypto_service.dart';
 import '../utils/sort_option.dart';
+
 class CryptoController extends GetxController {
   var cryptoAssets = <CryptoAsset>[].obs;
   var isLoading = true.obs;
@@ -10,6 +11,7 @@ class CryptoController extends GetxController {
 
   final List<SortOption> sortOptions = SortOption.values;
   final CryptoService cryptoService;
+
   CryptoController({required this.cryptoService});
 
   @override
@@ -18,7 +20,7 @@ class CryptoController extends GetxController {
     fetchCryptoAssets();
   }
 
-  Future<void> fetchCryptoAssets({int page = 1}) async {
+  Future<bool> fetchCryptoAssets({int page = 1}) async {
     isLoading(true);
     try {
       final assets = await cryptoService.fetchCryptoAssets(page: page);
@@ -26,9 +28,12 @@ class CryptoController extends GetxController {
         cryptoAssets.addAll(assets);
         hasMore.value = assets.length == 10;
         _sortAssets();
+        return true;
+      } else {
+        return false;
       }
     } catch (e) {
-      print('Error fetching assets: $e');
+      return false;
     } finally {
       isLoading(false);
     }

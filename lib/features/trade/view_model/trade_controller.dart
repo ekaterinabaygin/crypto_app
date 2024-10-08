@@ -44,12 +44,12 @@ class TradeController extends GetxController {
       if (rate != null) {
         conversionRate.value = rate;
       } else {
-        conversionRate.value = 0.0;
         errorMessage.value = 'Conversion rate not available.';
+        conversionRate.value = 0.0;
       }
     } catch (e) {
-      conversionRate.value = 0.0;
       errorMessage.value = 'Failed to fetch conversion rate: $e';
+      conversionRate.value = 0.0;
     } finally {
       isLoading.value = false;
     }

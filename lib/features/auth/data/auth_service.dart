@@ -8,10 +8,10 @@ class AuthService {
   }
 
   void login(String email, String password) {
-    storage.write('isLoggedIn', true);
+    storage.write('isLoggedIn', true);  // Assume successful login for now
   }
 
   void logout() {
-    storage.write('isLoggedIn', false);
+    storage.write('isLoggedIn', false);  // Mark user as logged out
   }
 }
