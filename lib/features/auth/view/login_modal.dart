@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controller/auth_controller.dart';
+import '../view_model/auth_controller.dart';
 
 class LoginModal extends StatelessWidget {
   final emailController = TextEditingController();

@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
     final CryptoController cryptoController = Get.find<CryptoController>();
 
     return Scaffold(
-      appBar: const StickyHeader(automaticallyImplyLeading: false), // Disable back arrow
+      appBar: const StickyHeader(automaticallyImplyLeading: false),
       body: Obx(() {
         if (cryptoController.isLoading.value && cryptoController.cryptoAssets.isEmpty) {
           return const Center(child: CircularProgressIndicator());

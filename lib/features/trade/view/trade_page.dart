@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../core/widgets/sticky_header.dart';
-import '../../../features/auth/controller/auth_controller.dart';
+import '../../auth/view_model/auth_controller.dart';
 import '../view_model/trade_controller.dart';
 
 class TradePage extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import '../features/auth/controller/auth_controller.dart';
+import '../features/auth/view_model/auth_controller.dart';
 
 class AuthGuard extends GetMiddleware {
   @override

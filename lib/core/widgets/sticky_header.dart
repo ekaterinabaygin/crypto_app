@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../features/auth/controller/auth_controller.dart';
 import '../../features/auth/view/login_modal.dart';
+import '../../features/auth/view_model/auth_controller.dart';
 
 class StickyHeader extends StatelessWidget implements PreferredSizeWidget {
   final bool automaticallyImplyLeading;

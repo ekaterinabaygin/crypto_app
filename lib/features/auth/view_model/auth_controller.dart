@@ -17,9 +17,9 @@ class AuthController extends GetxController {
     if (email.isNotEmpty && password.isNotEmpty) {
       authService.login(email, password);
       isLoggedIn.value = true;
-      return true;  // Success
+      return true;
     } else {
-      return false;  // Failure
+      return false;
     }
   }
 

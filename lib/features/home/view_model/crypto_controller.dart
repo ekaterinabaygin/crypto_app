@@ -9,7 +9,8 @@ class CryptoController extends GetxController {
   var hasMore = false.obs;
   var selectedSortOption = SortOption.name.obs;
 
-  final List<SortOption> sortOptions = SortOption.values;
+  final List<SortOption> sortOptions = SortOption.values; // Добавьте это поле
+
   final CryptoService cryptoService;
 
   CryptoController({required this.cryptoService});

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '../data/trade_service.dart';
 
 class TradeController extends GetxController {
-  final TradeService tradeService;  // Depends on abstract class
+  final TradeService tradeService;
 
   TradeController({required this.tradeService});
 
