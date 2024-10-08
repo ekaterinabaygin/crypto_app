@@ -8,7 +8,6 @@ class AppColors {
   static const Color red = Colors.red;
   static const Color blue = Colors.blue;
 
-  // You can also add different shades
   static const Color primaryLight = Color(0xFFCE93D8);
   static const Color secondaryDark = Color(0xFF00695C);
 }
