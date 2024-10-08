@@ -1,9 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 import '../data/trade_service.dart';
 
 class TradeController extends GetxController {
-  final TradeService tradeService;
+  final TradeService tradeService;  // Depends on abstract class
 
   TradeController({required this.tradeService});
 

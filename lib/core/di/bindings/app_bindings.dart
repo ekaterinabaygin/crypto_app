@@ -12,16 +12,15 @@ class AppBindings extends Bindings {
   void dependencies() {
     Get.lazyPut<ApiProvider>(() => ApiProvider(), fenix: true);
 
-    Get.lazyPut<TradeService>(() => TradeService(apiProvider: Get.find<ApiProvider>()), fenix: true);
+    // Bind the interface to the implementation
+    Get.lazyPut<TradeService>(() => TradeServiceImpl(apiProvider: Get.find<ApiProvider>()), fenix: true);
 
     Get.lazyPut<TradeController>(() => TradeController(tradeService: Get.find<TradeService>()), fenix: true);
 
     Get.lazyPut<CryptoService>(() => CryptoService(apiProvider: Get.find<ApiProvider>()), fenix: true);
-
     Get.lazyPut<CryptoController>(() => CryptoController(cryptoService: Get.find<CryptoService>()), fenix: true);
 
     Get.lazyPut<AuthService>(() => AuthService(), fenix: true);
-
     Get.lazyPut<AuthController>(() => AuthController(authService: Get.find<AuthService>()), fenix: true);
   }
 }
